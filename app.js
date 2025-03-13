@@ -21,19 +21,11 @@ class App {
     const max = 1409621067;
     const min = 1;
     const numbers = new Set();
-    const range = max - min;
-    const variance = Math.floor(range * (randomnessLevel / 1000));
-
     while (numbers.size < 10) {
-      const randomOffset = Math.floor(Math.random() * (2 * variance + 1)) - variance;
-      let randomNumber = baseNumber + randomOffset;
-
-      // Ensure the number is within the valid range
-      randomNumber = Math.max(min, Math.min(max, randomNumber));
-
+      const randomNumber =
+        Math.floor(Math.random() * (max - min + 1)) + min;
       numbers.add(randomNumber);
     }
-
     return Array.from(numbers);
   }
 
@@ -567,14 +559,24 @@ class App {
     // Copy prompt button
     document.getElementById('copyPrompt').addEventListener('click', () => {
       const promptText = document.getElementById('resultPrompt').textContent;
-      navigator.clipboard
-        .writeText(promptText)
-        .then(() => {
-          this.showMessage('Prompt copied to clipboard!');
-        })
-        .catch((err) => {
-          this.showMessage('Failed to copy: ' + err, 'error');
-        });
+
+      // Fallback method using a temporary textarea
+      const textArea = document.createElement('textarea');
+      textArea.value = promptText;
+      textArea.style.position = 'fixed';  //avoid scrolling to bottom of page in MS Edge.
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        const successful = document.execCommand('copy');
+        const msg = successful ? 'successful' : 'unsuccessful';
+        this.showMessage('Prompt copied to clipboard!');
+      } catch (err) {
+        this.showMessage('Unable to copy prompt: ' + err, 'error');
+      }
+
+      document.body.removeChild(textArea);
     });
 
     // Add image button
