@@ -266,6 +266,9 @@
         async function loadSettingsContent() {
             try {
                 const response = await fetch('settings.html');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const settingsContent = await response.text();
                 document.getElementById('settings').innerHTML = settingsContent;
 
