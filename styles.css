@@ -517,3 +517,34 @@ footer {
     font-size: 0.9em;
     color: #777;
 }
+
+/* Fixes for Saved Sets */
+#setsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed; /* Add this line */
+}
+
+#setsTable th,
+#setsTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    word-break: break-word; /* Add this line */
+}
+
+/* Ensure text is readable */
+body,
+h1,
+h2,
+h3,
+label,
+p,
+div,
+span,
+button,
+input,
+textarea {
+    color: #333; /* Set a default text color */
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .dashboard-container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+        }
+        .feature-link {
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .feature-link:hover {
+            background-color: #0056b3;
+        }
+        /* Styles for the scratchpad */
+        .scratchpad-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+        .scratchpad-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+        .scratchpad-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .scratchpad-button:hover {
+            background-color: #218838;
+        }
+        .scratchpad-items {
+            margin-top: 15px;
+        }
+        .scratchpad-item {
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #fff;
+        }
+        /* Styles for image upload and display */
+        .image-upload-area {
+            border: 2px dashed #ced4da;
+            border-radius: 4px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .image-upload-area:hover {
+            background-color: #f8f9fa;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+        /* Styles for tags */
+        .tag-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .tag {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 3px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Dashboard</h1>
+        <a href="index.html" class="feature-link">Midjourney Sref Tracker</a>
+
+        <!-- Scratchpad Feature -->
+        <div class="scratchpad-container">
+            <h2>Scratchpad</h2>
+
+            <!-- URL and Notes Input -->
+            <input type="text" id="scratchpadInput" class="scratchpad-input" placeholder="Enter notes or URLs">
+
+            <!-- Tag Input -->
+            <input type="text" id="tagInput" class="tag-input" placeholder="Add tags (comma-separated)">
+
+            <!-- Image Upload Area -->
+            <div class="image-upload-area" onclick="document.getElementById('imageUpload').click()">
+                Drag and drop images here or click to upload
+                <input type="file" id="imageUpload" style="display:none" accept="image/*" onchange="previewImage(this)">
+            </div>
+            <img id="imagePreview" class="image-preview" src="#" alt="Image preview" style="display: none;">
+
+            <button onclick="addScratchpadItem()" class="scratchpad-button">Add to Scratchpad</button>
+            <div id="scratchpadItems" class="scratchpad-items">
+                <!-- Scratchpad items will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addScratchpadItem() {
+            var input = document.getElementById('scratchpadInput');
+            var itemText = input.value.trim();
+            var tagInput = document.getElementById('tagInput');
+            var tags = tagInput.value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
+            var imagePreview = document.getElementById('imagePreview');
+            var imageSrc = imagePreview.src;
+
+            if (itemText !== '' || imageSrc !== '#' && imageSrc !== window.location.href) {
+                var itemsContainer = document.getElementById('scratchpadItems');
+                var itemDiv = document.createElement('div');
+                itemDiv.className = 'scratchpad-item';
+
+                // Add tags
+                var tagsHtml = tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+                itemDiv.innerHTML = tagsHtml;
+
+                // Add text content
+                if (itemText !== '') {
+                    itemDiv.innerHTML += `<p>${itemText}</p>`;
+                }
+
+                // Add image if available
+                if (imageSrc !== '#'  && imageSrc !== window.location.href) {
+                    itemDiv.innerHTML += `<img src="${imageSrc}" style="max-width: 100px; max-height: 100px;">`;
+                }
+
+                itemsContainer.appendChild(itemDiv);
+                input.value = ''; // Clear the input
+                tagInput.value = ''; // Clear the tag input
+                imagePreview.src = '#'; // Clear the image preview
+                imagePreview.style.display = 'none';
+            }
+        }
+
+        function previewImage(input) {
+            var imagePreview = document.getElementById('imagePreview');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Drag and drop functionality
+        const uploadArea = document.querySelector('.image-upload-area');
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#f8f9fa';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.backgroundColor = '#fff';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '#fff';
+            const file = e.dataTransfer.files[0];
+            handleImageUpload(file);
+        });
+
+        function handleImageUpload(file) {
+            const imageUpload = document.getElementById('imageUpload');
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            imageUpload.files = dataTransfer.files;
+            previewImage(imageUpload);
+        }
+    </script>
+</body>
+</html>
