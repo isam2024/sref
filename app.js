@@ -17,8 +17,24 @@ class App {
     this.currentSrefValues = [];
   }
 
-  generateIncrements(baseNumber) {
-    return Array.from({ length: 10 }, (_, i) => baseNumber + i);
+  generateIncrements(baseNumber, randomnessLevel = 500) {
+    const max = 1409621067;
+    const min = 1;
+    const numbers = new Set();
+    const range = max - min;
+    const variance = Math.floor(range * (randomnessLevel / 1000));
+
+    while (numbers.size < 10) {
+      const randomOffset = Math.floor(Math.random() * (2 * variance + 1)) - variance;
+      let randomNumber = baseNumber + randomOffset;
+
+      // Ensure the number is within the valid range
+      randomNumber = Math.max(min, Math.min(max, randomNumber));
+
+      numbers.add(randomNumber);
+    }
+
+    return Array.from(numbers);
   }
 
   generatePrompt(numbers) {
@@ -86,7 +102,10 @@ class App {
         this.currentBaseNumber = baseNumber;
       }
 
-      const numbers = this.generateIncrements(baseNumber);
+      const randomnessLevelInput = document.getElementById('randomnessLevel');
+      const randomnessLevel = parseInt(randomnessLevelInput.value);
+
+      const numbers = this.generateIncrements(baseNumber, randomnessLevel);
       this.currentSrefValues = numbers;
       const prompt = this.generatePrompt(numbers);
 
