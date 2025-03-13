@@ -26,7 +26,11 @@ class App {
         Math.floor(Math.random() * (max - min + 1)) + min;
       numbers.add(randomNumber);
     }
-    return Array.from(numbers);
+    const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+    while (sortedNumbers.length > 10) {
+      sortedNumbers.pop();
+    }
+    return sortedNumbers;
   }
 
   generatePrompt(numbers) {
@@ -152,7 +156,11 @@ class App {
 
   async loadSavedSets() {
     try {
-      const sets = await this.db.getAllSets();
+      let sets = await this.db.getAllSets();
+
+      // Sort sets numerically by baseNumber
+      sets.sort((a, b) => a.baseNumber - b.baseNumber);
+
       const setsList = document.getElementById('setsList');
       const noSetsMessage = document.getElementById('noSetsMessage');
       const setsTable = document.getElementById('setsTable');
@@ -170,7 +178,10 @@ class App {
           const row = document.createElement('tr');
 
           const rangeCell = document.createElement('td');
-          rangeCell.textContent = `${set.baseNumber} - ${set.baseNumber + 9}`;
+          const increments = this.generateIncrements(set.baseNumber);
+          const lowNumber = increments[0];
+          const highNumber = increments[increments.length - 1];
+          rangeCell.textContent = `${lowNumber} - ${highNumber}`;
 
           const dateCell = document.createElement('td');
           dateCell.textContent = new Date(set.timestamp).toLocaleString(
@@ -593,6 +604,18 @@ class App {
         this.populateSrefValueSelect();
       } else {
         uploadArea.style.display = 'none';
+      }
+    });
+
+    // Home button
+    document.getElementById('homeBtn').addEventListener('click', () => {
+      const resultArea = document.getElementById('resultArea');
+      resultArea.style.display = 'none';
+
+      // Remove any displayed images
+      const imagesContainer = document.querySelector('.images-container');
+      if (imagesContainer) {
+        imagesContainer.remove();
       }
     });
 
