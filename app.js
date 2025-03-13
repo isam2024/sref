@@ -22,8 +22,13 @@ class App {
     const min = 1;
     const numbers = new Set();
     while (numbers.size < 10) {
-      const randomNumber =
+      let randomNumber =
         Math.floor(Math.random() * (max - min + 1)) + min;
+      
+      // Adjust randomness based on the randomnessLevel
+      const randomness = Math.floor(randomnessLevel / 1000 * (max - min));
+      randomNumber = Math.max(min, Math.min(max, randomNumber + randomness));
+      
       numbers.add(randomNumber);
     }
     const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
