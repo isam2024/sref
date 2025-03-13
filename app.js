@@ -5,6 +5,7 @@ class App {
     this.db = new SrefDatabase();
     this.setupEventListeners();
     this.loadSavedSets();
+    this.loadRandomImages(); // Load random images on app initialization
 
     // Hide result area initially
     const resultArea = document.getElementById('resultArea');
@@ -67,6 +68,7 @@ class App {
       this.currentBaseNumber = baseNumber;
       this.currentSrefValues = this.generateIncrements(baseNumber);
       this.loadSavedSets();
+      this.loadRandomImages();
       return true;
     } catch (error) {
       this.showMessage(`Error creating set: ${error}`, 'error');
@@ -407,6 +409,7 @@ class App {
 
           // Refresh the images
           this.loadSetDetails(this.currentSetId, this.currentBaseNumber);
+          this.loadRandomImages();
         } catch (error) {
           this.showMessage(`Error saving image: ${error}`, 'error');
         }
@@ -499,6 +502,7 @@ class App {
                 await this.db.deleteImage(image.id);
                 this.loadSetDetails(setId, baseNumber);
                 this.showMessage('Image deleted successfully');
+                this.loadRandomImages();
               }
             });
 
@@ -513,6 +517,43 @@ class App {
       }
     } catch (error) {
       this.showMessage(`Error loading images: ${error}`, 'error');
+    }
+  }
+
+  async loadRandomImages() {
+    const imageGrid = document.getElementById('randomImageGrid');
+    imageGrid.innerHTML = ''; // Clear existing images
+
+    try {
+      const allImages = await this.db.getAllImages();
+      const images = allImages.map(image => image.data);
+
+      const numImages = Math.min(9, images.length); // Up to 3x3 grid
+      const randomImages = [];
+      const usedIndices = new Set();
+
+      while (randomImages.length < numImages && usedIndices.size < images.length) {
+        let randomIndex = Math.floor(Math.random() * images.length);
+        while (usedIndices.has(randomIndex)) {
+          randomIndex = Math.floor(Math.random() * images.length);
+        }
+        randomImages.push(images[randomIndex]);
+        usedIndices.add(randomIndex);
+      }
+
+      // Create image elements and add them to the grid
+      randomImages.forEach(image => {
+        const img = document.createElement('img');
+        img.src = image;
+        img.alt = 'Random Reference Image';
+        imageGrid.appendChild(img);
+      });
+
+      // Adjust grid layout based on the number of images
+      imageGrid.style.gridTemplateColumns = `repeat(${Math.min(3, randomImages.length)}, 1fr)`;
+    } catch (error) {
+      console.error("Error loading random images:", error);
+      this.showMessage(`Error loading random images: ${error}`, 'error');
     }
   }
 

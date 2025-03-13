@@ -34,33 +34,19 @@
             display: block;
         }
 
-        /* Styles for scratchpad */
-        #scratchpad {
-            width: 100%;
-            height: 300px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            text-align: center;
-            line-height: 300px;
-            cursor: pointer;
-            margin-bottom: 20px;
+        /* Style for the random image grid */
+        #randomImageGrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            gap: 10px; /* Space between images */
+            margin-bottom: 20px; /* Space below the grid */
         }
 
-        #scratchpad.dragover {
-            background-color: #e9e9e9;
-            border-color: #999;
-        }
-
-        #scratchpad img {
-            max-width: 100%;
-            max-height: 100%;
-            display: none;
-        }
-
-        #scratchpad.has-image img {
-            display: block;
-            margin: auto;
+        #randomImageGrid img {
+            width: 100%; /* Make images fill the grid cell */
+            height: auto;
+            border-radius: 8px; /* Optional: round the corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
         }
     </style>
 </head>
@@ -73,7 +59,8 @@
 
         <div class="tab-container">
             <button class="tab-button active" onclick="openTab('sref-tracker')">Sref Tracker</button>
-            <button class="tab-button" onclick="openTab('scratchpad')">Scratchpad</button>
+            <button class="tab-button" onclick="openTab('tone-analyzer')">Tone Analyzer</button>
+            <button class="tab-button" onclick="openTab('settings')">Settings</button>
             <!-- Add more tabs here as needed -->
         </div>
 
@@ -82,6 +69,10 @@
 
             <div class="container">
                 <div class="panel">
+                    <h2>Random Reference Images</h2>
+                    <div id="randomImageGrid">
+                        <!-- Images will be loaded here -->
+                    </div>
                     <h2>Generate Sets</h2>
 
                     <div class="randomness-controls">
@@ -195,41 +186,47 @@
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
 
-            <div class="panel">
-                <h2>Saved Sets</h2>
+        <div class="panel">
+            <h2>Saved Sets</h2>
 
-                <div id="savedSetsArea">
-                    <table id="setsTable">
-                        <thead>
-                            <tr>
-                                <th>Range</th>
-                                <th>Date</th>
-                                <th>Notes</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="setsList">
-                            <!-- Sets will be populated here -->
-                        </tbody>
-                    </table>
+            <div id="savedSetsArea">
+                <table id="setsTable">
+                    <thead>
+                        <tr>
+                            <th>Range</th>
+                            <th>Date</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="setsList">
+                        <!-- Sets will be populated here -->
+                    </tbody>
+                </table>
 
-                    <div id="noSetsMessage" class="sets-empty">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 16v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                            <rect x="8" y="2" width="12" height="12" rx="2" ry="2"></rect>
-                        </svg>
-                        <p>No sets have been saved yet.</p>
-                        <p>Generate your first set to get started!</p>
-                    </div>
+                <div id="noSetsMessage" class="sets-empty">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 16v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                        <rect x="8" y="2" width="12" height="12" rx="2" ry="2"></rect>
+                    </svg>
+                    <p>No sets have been saved yet.</p>
+                    <p>Generate your first set to get started!</p>
                 </div>
             </div>
         </div>
 
-        <div id="scratchpad" class="tab-content">
-            <h1>Scratchpad</h1>
-            <canvas id="scratchpadCanvas" width="800" height="600"></canvas>
+        <div id="tone-analyzer" class="tab-content">
+            <h2>Tone Analyzer</h2>
+            <p>This is the Tone Analyzer tab content.</p>
+            <!-- Add Tone Analyzer specific content here -->
+        </div>
+
+        <div id="settings" class="tab-content">
+            <h2>Settings</h2>
+            <p>This is the Settings tab content.</p>
+            <!-- Add Settings specific content here -->
         </div>
 
         <footer>
@@ -262,51 +259,6 @@
                 button.classList.add("active");
             }
         }
-
-        // Scratchpad functionality
-        const scratchpadCanvas = document.getElementById('scratchpadCanvas');
-        const ctx = scratchpadCanvas.getContext('2d');
-        let isDrawing = false;
-
-        scratchpadCanvas.addEventListener('mousedown', (e) => {
-            isDrawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
-        });
-
-        scratchpadCanvas.addEventListener('mousemove', (e) => {
-            if (!isDrawing) return;
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-        });
-
-        scratchpadCanvas.addEventListener('mouseup', () => {
-            isDrawing = false;
-        });
-
-        scratchpadCanvas.addEventListener('mouseout', () => {
-            isDrawing = false;
-        });
-
-        scratchpadCanvas.addEventListener('dragover', (e) => {
-            e.preventDefault();
-        });
-
-        scratchpadCanvas.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const file = e.dataTransfer.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        ctx.drawImage(img, 0, 0, scratchpadCanvas.width, scratchpadCanvas.height);
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
     </script>
     <script src="database.js"></script>
     <script src="app.js"></script>

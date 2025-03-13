@@ -419,6 +419,29 @@ class SrefDatabase {
             });
         });
     }
+
+    async getAllImages() {
+        await this.initDb();
+
+        return new Promise((resolve, reject) => {
+            if (!this.db) {
+                reject('Database not initialized');
+                return;
+            }
+
+            const transaction = this.db.transaction(['images'], 'readonly');
+            const store = transaction.objectStore('images');
+            const request = store.getAll();
+
+            request.onsuccess = () => {
+                resolve(request.result);
+            };
+
+            request.onerror = (event) => {
+                reject('Error getting all images: ' + event.target.errorCode);
+            };
+        });
+    }
     
     async deleteImage(imageId) {
         await this.initDb();

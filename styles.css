@@ -4,8 +4,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #f0f0f0;
+    color: #333; /* Default text color */
     line-height: 1.6;
 }
 
@@ -65,12 +65,12 @@ textarea {
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    box-sizing: border-box;
     font-size: 1em;
 }
 
 textarea {
-    resize: vertical; /* Allows vertical resizing */
+    resize: vertical;
 }
 
 /* Buttons */
@@ -127,7 +127,7 @@ button:hover {
     background-color: #e8f4ff;
     border: 1px solid #c6d9e9;
     border-radius: 4px;
-    display: none; /* Hidden by default */
+    display: none;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
@@ -297,6 +297,7 @@ footer {
     from {
         transform: translateX(-100%);
     }
+
     to {
         transform: translateX(0);
     }
@@ -306,6 +307,7 @@ footer {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
         transform: translateX(100%);
@@ -523,7 +525,7 @@ footer {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    table-layout: fixed; /* Add this line */
+    table-layout: fixed;
 }
 
 #setsTable th,
@@ -531,7 +533,7 @@ footer {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    word-break: break-word; /* Add this line */
+    word-break: break-word;
 }
 
 /* Ensure text is readable */
@@ -547,4 +549,132 @@ button,
 input,
 textarea {
     color: #333; /* Set a default text color */
+}
+
+/* Random Image Grid */
+#randomImageGrid {
+    display: grid;
+    gap: 10px;
+}
+
+#randomImageGrid img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+/* Reverting specific styles */
+.table-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.view-btn,
+.delete-btn {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+.view-btn {
+    background-color: #3498db;
+}
+
+.view-btn:hover {
+    background-color: #2980b9;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Upload area */
+.upload-area {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.upload-area.dragover {
+    background-color: #e9e9e9;
+    border-color: #999;
+}
+
+.file-upload {
+    margin-bottom: 20px;
+}
+
+.file-label {
+    display: block;
+    padding: 10px 15px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.file-label svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+    fill: #777;
+}
+
+.file-input {
+    display: none;
+}
+
+.image-preview {
+    margin-top: 10px;
+}
+
+.image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.upload-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.upload-btn,
+.cancel-btn {
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.upload-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+
+.upload-btn:hover {
+    background-color: #43A047;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
 }
