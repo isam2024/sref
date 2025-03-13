@@ -224,9 +224,7 @@
         </div>
 
         <div id="settings" class="tab-content">
-            <h2>Settings</h2>
-            <p>This is the Settings tab content.</p>
-            <!-- Add Settings specific content here -->
+            <!-- Settings content will be loaded here -->
         </div>
 
         <footer>
@@ -257,6 +255,28 @@
             var button = document.querySelector('.tab-button[onclick="openTab(\'' + tabId + '\')"]');
             if (button) {
                 button.classList.add("active");
+            }
+
+            // Load content for settings tab
+            if (tabId === 'settings') {
+                loadSettingsContent();
+            }
+        }
+
+        async function loadSettingsContent() {
+            try {
+                const response = await fetch('settings.html');
+                const settingsContent = await response.text();
+                document.getElementById('settings').innerHTML = settingsContent;
+
+                // Execute the settings.js script after injecting the HTML
+                const script = document.createElement('script');
+                script.src = 'settings.js';
+                script.type = 'module'; // Add type="module" if it's a module script
+                document.getElementById('settings').appendChild(script);
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                document.getElementById('settings').innerHTML = '<p>Failed to load settings.</p>';
             }
         }
     </script>

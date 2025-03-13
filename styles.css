@@ -59,6 +59,7 @@ label {
 }
 
 input[type="number"],
+input[type="url"],
 textarea {
     width: 100%;
     padding: 8px;
@@ -677,4 +678,61 @@ textarea {
 
 .cancel-btn:hover {
     background-color: #d32f2f;
+}
+
+/* Settings Panel */
+.settings-panel {
+    padding: 20px;
+    background-color: #```xml
+f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.settings-panel h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    ```xml
+color: #555;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.settings-panel label {
+    display: block;
+    margin-bottom: 5px;
+    color: #777;
+```xml
+}
+
+.settings-panel input[type="url"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+.settings-panel button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.settings-panel button:hover {
+    background-color: #43A047;
+}
+
+.settings-panel p {
+    margin-top: 10px;
+    color: #777;
+    font-style: italic;
 }

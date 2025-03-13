@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Settings</h1>
+        </header>
+        <div class="settings-panel">
+            <h3>Ollama Endpoint</h3>
+            <label for="ollamaEndpoint">Endpoint URL:</label>
+            <input type="url" id="ollamaEndpoint" placeholder="http://localhost:11434" value="">
+            <button id="saveOllamaEndpoint">Save Endpoint</button>
+            <button id="connectOllama">Connect to Ollama</button>
+            <p id="endpointStatus"></p>
+        </div>
+    </div>
+    <script src="settings.js"></script>
+</body>
+</html>
