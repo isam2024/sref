@@ -1,347 +1,348 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Midjourney Dashboard</title>
-      <link rel="stylesheet" href="styles.css">
-      <style>
-        /* Styles for tabs */
-        .tab-container {
-          display: flex;
-          margin-bottom: 20px;
-        }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Midjourney Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Styles for tabs */
+    .tab-container {
+      display: flex;
+      margin-bottom: 20px;
+    }
 
-        .tab-button {
-          padding: 10px 15px;
-          border: 1px solid #ddd;
-          border-radius: 4px 4px 0 0;
-          background-color: #f0f0f0;
-          cursor: pointer;
-          margin-right: 5px;
-        }
+    .tab-button {
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px 4px 0 0;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      margin-right: 5px;
+    }
 
-        .tab-button.active {
-          background-color: #fff;
-          border-bottom: 1px solid #fff;
-        }
+    .tab-button.active {
+      background-color: #fff;
+      border-bottom: 1px solid #fff;
+    }
 
-        .tab-content {
-          display: none;
-        }
+    .tab-content {
+      display: none;
+    }
 
-        .tab-content.active {
-          display: block;
-        }
+    .tab-content.active {
+      display: block;
+    }
 
-        /* Style for the random image grid */
-        #randomImageGrid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          /* 4 columns */
-          gap: 10px;
-          /* Space between images */
-          margin-bottom: 20px;
-          /* Space below the grid */
-        }
+    /* Style for the random image grid */
+    #randomImageGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      /* 4 columns */
+      gap: 10px;
+      /* Space between images */
+      margin-bottom: 20px;
+      /* Space below the grid */
+    }
 
-        #randomImageGrid img {
-          width: 100%;
-          /* Make images fill the grid cell */
-          height: auto;
-          border-radius: 8px;
-          /* Optional: round the corners */
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          /* Optional: add a shadow */
-        }
+    #randomImageGrid img {
+      width: 100%;
+      /* Make images fill the grid cell */
+      height: auto;
+      border-radius: 8px;
+      /* Optional: round the corners */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      /* Optional: add a shadow */
+    }
 
-        /* Style for sort buttons */
-        .sort-buttons {
-          margin-bottom: 10px;
-          text-align: right;
-        }
+    /* Style for sort buttons */
+    .sort-buttons {
+      margin-bottom: 10px;
+      text-align: right;
+    }
 
-        .sort-button {
-          padding: 5px 10px;
-          border: 1px solid #ddd;
-          border-radius: 4px;
-          background-color: #f0f0f0;
-          cursor: pointer;
-          margin-left: 5px;
-        }
+    .sort-button {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+      margin-left: 5px;
+    }
 
-        .sort-button.active {
-          background-color: #fff;
-        }
+    .sort-button.active {
+      background-color: #fff;
+    }
 
-        /* Updated container to stack panels vertically */
-        .container {
-          display: flex;
-          flex-direction: column;
-          gap: 20px;
-        }
-      </style>
-    </head>
+    /* Updated container to stack panels vertically */
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  </style>
+</head>
 
-    <body>
-      <div class="app-container">
-        <header>
-          <h1>Midjourney Dashboard</h1>
-          <p>Your central hub for Midjourney tools and resources</p>
-        </header>
+<body>
+  <div class="app-container">
+    <header>
+      <h1>Midjourney Dashboard</h1>
+      <p>Your central hub for Midjourney tools and resources</p>
+    </header>
 
-        <div class="tab-container">
-          <button class="tab-button active" onclick="openTab('sref-tracker')">Sref Tracker</button>
-          <button class="tab-button" onclick="openTab('tone-analyzer')">Tone Analyzer</button>
-          <button class="tab-button" onclick="openTab('settings')">Settings</button>
-          <!-- Add more tabs here as needed -->
-        </div>
+    <div class="tab-container">
+      <button class="tab-button active" onclick="openTab('sref-tracker')">Sref Tracker</button>
+      <button class="tab-button" onclick="openTab('tone-analyzer')">Tone Analyzer</button>
+      <button class="tab-button" onclick="openTab('settings')">Settings</button>
+      <!-- Add more tabs here as needed -->
+    </div>
 
-        <div id="sref-tracker" class="tab-content active">
-          <div id="messages-container"></div>
+    <!-- All tab contents are now at the same level -->
+    <div id="sref-tracker" class="tab-content active">
+      <div id="messages-container"></div>
 
-          <div class="container">
-            <div class="panel">
-              <h2>Random Reference Images</h2>
-              <div id="randomImageGrid">
-                <!-- Images will be loaded here -->
-              </div>
-              <h2>Generate Sets</h2>
+      <div class="container">
+        <div class="panel">
+          <h2>Random Reference Images</h2>
+          <div id="randomImageGrid">
+            <!-- Images will be loaded here -->
+          </div>
+          <h2>Generate Sets</h2>
 
-              <div class="randomness-controls">
-                <label for="randomnessLevel">Randomness Level (1-1000):</label>
-                <input type="range" id="randomnessLevel" min="1" max="1000" value="500">
-                <span id="randomnessValue">500</span>
-              </div>
+          <div class="randomness-controls">
+            <label for="randomnessLevel">Randomness Level (1-1000):</label>
+            <input type="range" id="randomnessLevel" min="1" max="1000" value="500">
+            <span id="randomnessValue">500</span>
+          </div>
 
-              <button id="generateRandom" class="btn-random">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          <button id="generateRandom" class="btn-random">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 22v-9.5l5-5l9 9l-9 9"></path>
+              <path d="M9 7.5l5-5l6 6l-5 5"></path>
+              <path d="M15 2.5l2.5 2.5"></path>
+              <path d="M4 12.5l5-5"></path>
+            </svg>
+            Generate Random Set
+          </button>
+
+          <div class="btn-divider">or enter manually</div>
+
+          <div>
+            <label for="baseNumber">Base Number</label>
+            <input type="number" id="baseNumber" placeholder="Enter a base number (e.g. 10000)">
+
+            <label for="setNotes">Notes (Optional)</label>
+            <textarea id="setNotes" placeholder="Add any notes about this set" rows="3"></textarea>
+
+            <button id="generateManual" class="btn-create">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Create Set
+            </button>
+          </div>
+
+          <div id="resultArea" class="result">
+            <h3>Generated Set</h3>
+            <div id="resultNumbers" class="result-value"></div>
+
+            <h3>Midjourney Prompt</h3>
+            <div id="resultPrompt" class="result-value"></div>
+
+            <div class="button-row">
+              <button id="copyPrompt" class="copy-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 22v-9.5l5-5l9 9l-9 9"></path>
-                  <path d="M9 7.5l5-5l6 6l-5 5"></path>
-                  <path d="M15 2.5l2.5 2.5"></path>
-                  <path d="M4 12.5l5-5"></path>
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                 </svg>
-                Generate Random Set
+                Copy Prompt
               </button>
 
-              <div class="btn-divider">or enter manually</div>
+              <button id="addImageBtn" class="image-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                Add Reference Image
+              </button>
 
-              <div>
-                <label for="baseNumber">Base Number</label>
-                <input type="number" id="baseNumber" placeholder="Enter a base number (e.g. 10000)">
-
-                <label for="setNotes">Notes (Optional)</label>
-                <textarea id="setNotes" placeholder="Add any notes about this set" rows="3"></textarea>
-
-                <button id="generateManual" class="btn-create">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                  Create Set
-                </button>
-              </div>
-
-              <div id="resultArea" class="result">
-                <h3>Generated Set</h3>
-                <div id="resultNumbers" class="result-value"></div>
-
-                <h3>Midjourney Prompt</h3>
-                <div id="resultPrompt" class="result-value"></div>
-
-                <div class="button-row">
-                  <button id="copyPrompt" class="copy-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                    Copy Prompt
-                  </button>
-
-                  <button id="addImageBtn" class="image-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                      <polyline points="21 15 16 10 5 21"></polyline>
-                    </svg>
-                    Add Reference Image
-                  </button>
-
-                  <button id="homeBtn" class="home-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    Home
-                  </button>
-                </div>
-
-                <div id="uploadArea" class="upload-area" style="display: none;">
-                  <h3>Upload Reference Image</h3>
-
-                  <!-- New Sref Value Selector -->
-                  <div class="sref-selector">
-                    <label for="srefValueSelect">Select Sref Value to Associate:</label>
-                    <select id="srefValueSelect" class="sref-value-select">
-                      <!-- Options will be populated dynamically -->
-                    </select>
-                  </div>
-
-                  <div class="file-upload">
-                    <label for="imageFile" class="file-label">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                      </svg>
-                      <span>Choose File or Drop Here</span>
-                    </label>
-                    <input type="file" id="imageFile" accept="image/*" class="file-input">
-                  </div>
-                  <div id="imagePreview" class="image-preview"></div>
-                  <div class="upload-controls">
-                    <button id="uploadImage" class="upload-btn" disabled>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                      </svg>
-                      Save Image
-                    </button>
-                    <button id="cancelUpload" class="cancel-btn">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <button id="homeBtn" class="home-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Home
+              </button>
             </div>
 
-            <div class="panel">
-              <h2>Saved Sets</h2>
+            <div id="uploadArea" class="upload-area" style="display: none;">
+              <h3>Upload Reference Image</h3>
 
-              <div class="sort-buttons">
-                <button class="sort-button active" onclick="app.sortSets('date-added-newest')">Date Added (Newest)</button>
-                <button class="sort-button" onclick="app.sortSets('date-added-oldest')">Date Added (Oldest)</button>
+              <!-- New Sref Value Selector -->
+              <div class="sref-selector">
+                <label for="srefValueSelect">Select Sref Value to Associate:</label>
+                <select id="srefValueSelect" class="sref-value-select">
+                  <!-- Options will be populated dynamically -->
+                </select>
               </div>
 
-              <div id="savedSetsArea">
-                <table id="setsTable">
-                  <thead>
-                    <tr>
-                      <th>Range</th>
-                      <th>Date</th>
-                      <th>Notes</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody id="setsList">
-                    <!-- Sets will be populated here -->
-                  </tbody>
-                </table>
-
-                <div id="noSetsMessage" class="sets-empty">
+              <div class="file-upload">
+                <label for="imageFile" class="file-label">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M16 16v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                    <rect x="8" y="2" width="12" height="12" rx="2" ry="2"></rect>
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
                   </svg>
-                  <p>No sets have been saved yet.</p>
-                  <p>Generate your first set to get started!</p>
-                </div>
+                  <span>Choose File or Drop Here</span>
+                </label>
+                <input type="file" id="imageFile" accept="image/*" class="file-input">
+              </div>
+              <div id="imagePreview" class="image-preview"></div>
+              <div class="upload-controls">
+                <button id="uploadImage" class="upload-btn" disabled>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  Save Image
+                </button>
+                <button id="cancelUpload" class="cancel-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                  Cancel
+                </button>
               </div>
             </div>
           </div>
-
-          <div id="tone-analyzer" class="tab-content">
-            <h2>Tone Analyzer</h2>
-            <p>This is the Tone Analyzer tab content.</p>
-            <!-- Add Tone Analyzer specific content here -->
-          </div>
-
-          <div id="settings" class="tab-content">
-            <!-- Settings content will be loaded here -->
-          </div>
-
-          <footer>
-            <p>Midjourney Sref Tracker &copy; 2025 | All data is stored locally in your browser</p>
-          </footer>
         </div>
 
-        <script>
-          let app; // Declare app in the global scope
+        <div class="panel">
+          <h2>Saved Sets</h2>
 
-          document.addEventListener('DOMContentLoaded', () => {
-            app = new App(); // Initialize app after DOM is loaded
+          <div class="sort-buttons">
+            <button class="sort-button active" onclick="app.sortSets('date-added-newest')">Date Added (Newest)</button>
+            <button class="sort-button" onclick="app.sortSets('date-added-oldest')">Date Added (Oldest)</button>
+          </div>
 
-            function openTab(tabId) {
-              var i, tabContent, tabButtons;
+          <div id="savedSetsArea">
+            <table id="setsTable">
+              <thead>
+                <tr>
+                  <th>Range</th>
+                  <th>Date</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="setsList">
+                <!-- Sets will be populated here -->
+              </tbody>
+            </table>
 
-              // Hide all tab contents
-              tabContent = document.getElementsByClassName("tab-content");
-              for (i = 0; i < tabContent.length; i++) {
-                tabContent[i].classList.remove("active");
-              }
+            <div id="noSetsMessage" class="sets-empty">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 16v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="12" height="12" rx="2" ry="2"></rect>
+              </svg>
+              <p>No sets have been saved yet.</p>
+              <p>Generate your first set to get started!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-              // Deactivate all tab buttons
-              tabButtons = document.getElementsByClassName("tab-button");
-              for (i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove("active");
-              }
+    <div id="tone-analyzer" class="tab-content">
+      <h2>Tone Analyzer</h2>
+      <p>This is the Tone Analyzer tab content.</p>
+      <!-- Add Tone Analyzer specific content here -->
+    </div>
 
-              // Show the selected tab and activate the button
-              document.getElementById(tabId).classList.add("active");
+    <div id="settings" class="tab-content">
+      <!-- Settings content will be loaded here -->
+    </div>
 
-              // Find the button that corresponds to the tab and activate it
-              var button = document.querySelector('.tab-button[onclick="openTab(\'' + tabId + '\')"]');
-              if (button) {
-                button.classList.add("active");
-              }
+    <footer>
+      <p>Midjourney Sref Tracker &copy; 2025 | All data is stored locally in your browser</p>
+    </footer>
+  </div>
 
-              // Load content for settings tab
-              if (tabId === 'settings') {
-                loadSettingsContent();
-              }
-            }
+  <script>
+    // Define openTab function in global scope
+    function openTab(tabId) {
+      var i, tabContent, tabButtons;
 
-            async function loadSettingsContent() {
-              try {
-                const response = await fetch('settings.html');
-                if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const settingsContent = await response.text();
-                document.getElementById('settings').innerHTML = settingsContent;
+      // Hide all tab contents
+      tabContent = document.getElementsByClassName("tab-content");
+      for (i = 0; i < tabContent.length; i++) {
+        tabContent[i].classList.remove("active");
+      }
 
-                // Execute the settings.js script after injecting the HTML
-                const script = document.createElement('script');
-                script.src = 'settings.js';
-                script.type = 'module'; // Add type="module" if it's a module script
-                document.getElementById('settings').appendChild(script);
-              } catch (error) {
-                console.error('Error loading settings:', error);
-                document.getElementById('settings').innerHTML = '<p>Failed to load settings.</p>';
-              }
-            }
+      // Deactivate all tab buttons
+      tabButtons = document.getElementsByClassName("tab-button");
+      for (i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove("active");
+      }
 
-            let currentSortOrder = 'date-added-newest'; // Default sort order
+      // Show the selected tab and activate the button
+      document.getElementById(tabId).classList.add("active");
 
-          });
-        </script>
-        <script src="database.js"></script>
-        <script src="app.js"></script>
-    </body>
+      // Find the button that corresponds to the tab and activate it
+      var button = document.querySelector('.tab-button[onclick="openTab(\'' + tabId + '\');"]');
+      if (button) {
+        button.classList.add("active");
+      }
 
-    </html>
+      // Load content for settings tab
+      if (tabId === 'settings') {
+        loadSettingsContent();
+      }
+    }
+
+    let app; // Declare app in the global scope
+
+    document.addEventListener('DOMContentLoaded', () => {
+      app = new App(); // Initialize app after DOM is loaded
+      
+      async function loadSettingsContent() {
+        try {
+          const response = await fetch('settings.html');
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const settingsContent = await response.text();
+          document.getElementById('settings').innerHTML = settingsContent;
+
+          // Execute the settings.js script after injecting the HTML
+          const script = document.createElement('script');
+          script.src = 'settings.js';
+          document.getElementById('settings').appendChild(script);
+        } catch (error) {
+          console.error('Error loading settings:', error);
+          document.getElementById('settings').innerHTML = '<p>Failed to load settings.</p>';
+        }
+      }
+
+      let currentSortOrder = 'date-added-newest'; // Default sort order
+    });
+  </script>
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
