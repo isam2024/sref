@@ -683,8 +683,7 @@ textarea {
 /* Settings Panel */
 .settings-panel {
     padding: 20px;
-    background-color: #```xml
-f9f9f9;
+    background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -693,8 +692,7 @@ f9f9f9;
 .settings-panel h3 {
     margin-top: 0;
     margin-bottom: 15px;
-    ```xml
-color: #555;
+    color: #555;
     border-bottom: 1px solid #eee;
     padding-bottom: 5px;
 }
@@ -703,7 +701,6 @@ color: #555;
     display: block;
     margin-bottom: 5px;
     color: #777;
-```xml
 }
 
 .settings-panel input[type="url"] {
@@ -725,6 +722,8 @@ color: #555;
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .settings-panel button:hover {
@@ -735,4 +734,27 @@ color: #555;
     margin-top: 10px;
     color: #777;
     font-style: italic;
+}
+
+/* Connection status colors */
+#endpointStatus {
+    padding: 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#endpointStatus.success {
+    color: #4CAF50;
+}
+
+#endpointStatus.error {
+    color: #f44336;
+}
+
+#endpointStatus.warning {
+    color: #ff9800;
+}
+
+#endpointStatus.info {
+    color: #2196F3;
 }
