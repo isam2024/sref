@@ -566,120 +566,6 @@ textarea {
     object-fit: cover;
 }
 
-/* Reverting specific styles */
-.table-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-start;
-}
-
-.view-btn,
-.delete-btn {
-    padding: 8px 12px;
-    font-size: 0.9em;
-}
-
-.view-btn {
-    background-color: #3498db;
-}
-
-.view-btn:hover {
-    background-color: #2980b9;
-}
-
-.delete-btn {
-    background-color: #e74c3c;
-}
-
-.delete-btn:hover {
-    background-color: #c0392b;
-}
-
-/* Upload area */
-.upload-area {
-    display: none;
-    margin-top: 20px;
-    padding: 20px;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    text-align: center;
-}
-
-.upload-area.dragover {
-    background-color: #e9e9e9;
-    border-color: #999;
-}
-
-.file-upload {
-    margin-bottom: 20px;
-}
-
-.file-label {
-    display: block;
-    padding: 10px 15px;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.file-label svg {
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
-    margin-right: 5px;
-    fill: #777;
-}
-
-.file-input {
-    display: none;
-}
-
-.image-preview {
-    margin-top: 10px;
-}
-
-.image-preview img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.upload-controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.upload-btn,
-.cancel-btn {
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.upload-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-}
-
-.upload-btn:hover {
-    background-color: #43A047;
-}
-
-.cancel-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-}
-
-.cancel-btn:hover {
-    background-color: #d32f2f;
-}
-
 /* Settings Panel */
 .settings-panel {
     padding: 20px;
@@ -734,15 +620,12 @@ textarea {
     margin-top: 10px;
     color: #777;
     font-style: italic;
-}
-
-/* Connection status colors */
-#endpointStatus {
     padding: 8px;
     border-radius: 4px;
     font-weight: bold;
 }
 
+/* Connection status colors */
 #endpointStatus.success {
     color: #4CAF50;
 }
